@@ -24,18 +24,22 @@ export default function Projects() {
   return (
     <>
       <div className="p-6 bg-white shadow rounded-md">
-        <div className="header flex justify-between items-center mb-4">
-        <h2 className="text-2xl flex gap-2 font-semibold text-slate-800"><svg className='mt-2' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panels-top-left-icon lucide-panels-top-left"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>Project List</h2>
+        <div className="header flex gap-2 justify-between items-center mb-4">
+        <div className="text-2xl flex gap-2 font-semibold text-slate-800">
+          <svg className='mt-2' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panels-top-left-icon lucide-panels-top-left"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>
+          </svg>
+          <span className='text-sm'>Project List</span>
+        </div>
 
         {/* Search input with icon */}
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="pl-10 pr-4 py-1 border-2 rounded-sm focus:outline-none focus:ring-1 focus:ring-blue-400"
-          />
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 w-5 h-5" />
-        </div>
+        <div className="relative w-full sm:w-72 md:w-80 border">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full pl-10 pr-4 py-2 border-2 rounded-sm text-sm sm:text-base focus:outline-none focus:ring-1 focus:ring-blue-400"
+              />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 w-5 h-5" />
+            </div>
       </div>
 
       {projects.length > 0 ? (

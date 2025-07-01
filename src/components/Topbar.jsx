@@ -13,13 +13,13 @@ export default function Topbar() {
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // 🔁 Check login status whenever the route changes
+  // Check login status whenever the route changes
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
   }, [location.pathname]);
 
-  // ✅ Handle logout and update state
+  // Handle logout and update state
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
@@ -27,10 +27,11 @@ export default function Topbar() {
   };
 
   return (
-    <div className="flex justify-between items-center p-3 bg-slate-800 text-white">
+    <>
+      <div className="flex justify-between items-center p-3 bg-slate-800 text-white">
       <div className="flex justify-start">
         <img src={image.url} alt="logo image" height={image.height} width={image.width} />
-        <h3 className="text-3xl font-bold mt-5">Task Manager</h3>
+        <h3 className="text-3xl font-bold mt-5">Task Management System</h3>
 
       </div>
       {isLoggedIn ? (
@@ -51,5 +52,6 @@ export default function Topbar() {
         )
       )}
     </div>
+    </>
   );
 }

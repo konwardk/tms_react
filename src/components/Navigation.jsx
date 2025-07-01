@@ -8,7 +8,7 @@ export default function Navigation() {
 
   return (
  <>
-     <div className="p-2">
+     <div className="">
     {/* Toggle Buttons */}
     <div className="mb-6 flex bg-slate-400">
       <button
