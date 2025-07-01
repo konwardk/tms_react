@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/axios';
 import Loader from '../components/Loader';
+import Pagination from '../components/Pagination';
 import { Search, Edit, Trash2 } from 'lucide-react';
 
 export default function Users() {
   const [users, setUsers] = useState([]);
+  const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    api.get('/admin/users')
+    setLoading(true);
+    api.get(`/admin/users?page=${currentPage}`)
       .then(response => {
-        setUsers(response.data.data);
+        const { data, current_page, last_page } = response.data.data;
+        setUsers(data);
+        setPagination({current_page, last_page});
         setLoading(false);
       })
       .catch(error => {
         console.error('Unauthorized or error fetching users:', error);
         setLoading(false);
       });
-  }, []);
+  }, [currentPage]);
 
   if (loading) return <Loader />;
 
@@ -69,6 +75,11 @@ export default function Users() {
               ))}
             </tbody>
           </table>
+          <Pagination 
+            currentPage={pagination.current_page}
+            lastPage={pagination.last_page}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
         </div>
       ) : (
         <div className="text-center text-gray-600 py-8">

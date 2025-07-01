@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 export default function Topbar() {
 
   const image = {
-    url: './public/image/hihi.png',
+    url: './image/hihi.png',
     height: 20,
     width: 50
   }

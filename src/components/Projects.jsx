@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/axios';
 import Loader from '../components/Loader';
+import Pagination from '../components/Pagination';
 import { Search, Edit, Trash2} from 'lucide-react';
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
+  const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    api.get('/admin/projects')
-      .then(response => {
-        setProjects(response.data.data.data); // Nested pagination response
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Unauthorized or error fetching projects:', error);
-        setLoading(false);
-      });
-  }, []);
+    setLoading(true);
+      api.get(`/admin/projects?page=${currentPage}`)
+        .then(response => {
+          const { data, current_page, last_page } = response.data.data;
+          setProjects(data);
+          setPagination({ current_page, last_page });
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error('Unauthorized or error fetching projects:', error);
+          setLoading(false);
+        });
+    }, [currentPage]);
+
 
   if (loading) return <Loader />;
 
@@ -97,6 +104,12 @@ export default function Projects() {
               })}
             </tbody>
           </table>
+          <Pagination 
+            currentPage={pagination.current_page}
+            lastPage={pagination.last_page}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
+            
         </div>
       ) : (
         <div className="text-center text-gray-600 py-8">No projects found.</div>
