@@ -7,12 +7,26 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
   const handleLogin = async () => {
+    // Input validation
     if (!email || !password) {
       setErrorMsg('Please enter both email and password');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setErrorMsg('Please enter a valid email address');
+      return;
+    }
+
+    if (password.length < 6) {
+      setErrorMsg('Password must be at least 6 characters');
       return;
     }
 
@@ -21,15 +35,18 @@ export default function Login() {
 
     try {
       const response = await api.post('/login', { email, password });
-
-      // Save token and redirect
       localStorage.setItem('token', response.data.token);
-      // console.log(response.data.token);
       navigate('/dashboard');
     } catch (error) {
       setErrorMsg('Invalid email or password');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin();
     }
   };
 
@@ -52,6 +69,7 @@ export default function Login() {
             placeholder="Enter your email"
             value={email}
             onChange={e => setEmail(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
         </div>
 
@@ -63,6 +81,7 @@ export default function Login() {
             placeholder="Enter your password"
             value={password}
             onChange={e => setPassword(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
         </div>
 
