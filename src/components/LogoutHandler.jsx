@@ -8,16 +8,14 @@ export default function Logout() {
   useEffect(() => {
     const logoutUser = async () => {
       try {
-        // Send logout request to your Laravel Sanctum logout route
-        await api.post('/logout');
+        await api.post('/logout', {}, { withCredentials: true });
 
-        // Clear token and redirect to guest page or login
         localStorage.removeItem('token');
-        navigate('/');
+        navigate('/login'); // redirect to login
       } catch (error) {
         console.error('Logout failed:', error);
-        localStorage.removeItem('token'); // still remove it on failure
-        navigate('/');
+        localStorage.removeItem('token');
+        navigate('/login');
       }
     };
 
